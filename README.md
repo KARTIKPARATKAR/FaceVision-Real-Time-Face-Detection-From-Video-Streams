@@ -17,5 +17,17 @@ Building Deep Neural Network Model Using Keras Functional API's - Keras function
 
 ![VGG16 Model Architecture](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/VGG16_Model.jpg)
 
+Building Custome Convolutional Neural Network Model - 
+   - Input layer with shape (120,120,3) as our input image size is 120*120
+   - Passed input layer through VGG16 imagenet pre-trained model with freezed classification layer.
+   - Defining 2 different models , one for classification(F1) and one for regression(F2).
+   - VGG16 output is passed through both F1 and F2.
+   - F1 output is passed through the class1 dense layer with 2048 nodes and relu activation function.
+   - F2 output is passed through the regress1 dense layer with 2048 nodes and relu activation function.
+   - class1 output is passed through class2 layer which is also the output output for classification model.
+   - regress1 output is passed through regress2 layer which is also the output for regression model.
+   - At the end , we will combine the output of both classification and regression models.
+
+
 
 
