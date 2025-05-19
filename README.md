@@ -90,4 +90,4 @@ We passed this video frame through the model and detected faces every **0.3 seco
 Bounding boxes were drawn around detected faces.  
 🖼️ Displayed sampled frames with annotations (i.e., the predicted bounding boxes and labels drawn on the video frames).
 
-Checkout handwritten detailed notes of this project [Here]()
+Checkout handwritten detailed notes of this project [Here](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/Handwritten_Notes_Of_Project.pdf)
