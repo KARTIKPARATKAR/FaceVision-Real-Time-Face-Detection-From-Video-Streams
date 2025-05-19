@@ -13,6 +13,7 @@ Applying Image Augmentation on Images and Labels using Albumenation - Image Augm
 Building Deep Neural Network Model Using Keras Functional API's - Keras functional API's is a way to build more flexible and complex neural network architecture compared to the simpler sequential API . Here API means Application Programming INterface provided by Keras. We will use pretrained model of VGG16 which is pretrained on large dataset called "Imagenet".We will freeze the classification layer of VGG16 and use only convolutional layer of VGG16 and we will add our custome classification and regression model to the output of VGG16 convolutional layer.We have 2 problems to solve here , one is regression -> Identifying the coordinates of the bounding box and another one is classification -> Detecting whether face is available in the video or not. 
 
 
+
 ![VGG16 Model Architecture](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/VGG16_Model.jpg)
 
 
