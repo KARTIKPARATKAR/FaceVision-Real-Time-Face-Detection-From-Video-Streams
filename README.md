@@ -1,69 +1,110 @@
-# 🎯 FaceVision - Real-Time Face Detection From Video Streams
+# 🤖 FaceVision – Real-Time Face Detection from Video Streams 🎥
 
-## [Final Notebook with Results](https://www.kaggle.com/code/kartikparatkar/facevision-real-timefacedetectionfromvideostreams?scriptVersionId=234191458)
+## 📌 [Final Notebook with Results on Kaggle](https://www.kaggle.com/code/kartikparatkar/facevision-real-timefacedetectionfromvideostreams?scriptVersionId=234191458)
 
-**Aim** – To build a deep learning model that processes video as input and draws bounding boxes around faces, regardless of their position in the video.
+---
 
-**Data Collection** – We require a significant amount of data to train the deep learning model. A total of **387 images** were captured using a laptop webcam.
+## 🎯 Aim  
+To build a Deep Learning model that processes **video as input** and draws a **bounding box** 🟥 around the face(s), regardless of their position in the video.
 
-**Data Setting & Labeling of Images** – The image dataset was uploaded to Kaggle. A `labels` directory was created to store the label files for each image. For labeling, we used the `labelImg` tool. Refer to this [GitHub link](https://github.com/HumanSignal/labelImg) and [YouTube video](https://www.youtube.com/watch?v=fjynQ9P2C08). This tool allows us to draw square bounding boxes around faces, saving information in XML format. These XML labels were converted to JSON format to be compatible with the **Albumentations** library for data augmentation.
+---
 
-We split the dataset as follows:
-- 70% Training – 268 images  
-- 15% Testing – 57 images  
-- 15% Validation – 62 images
+## 📸 Data Collection  
+We collected **387 images** using a laptop webcam 💻 to train the deep learning model effectively.
 
-**Applying Image Augmentation using Albumentations** – Image augmentation is the process of creating new training samples by applying random transformations to existing images. **Albumentations** is a fast, flexible Python library especially suited for computer vision tasks. It includes rich transformations like flip, rotate, blur, noise, and more, which help improve model generalization.
+---
 
-**Building the Deep Neural Network Model Using Keras Functional API** – The Keras Functional API allows us to build more complex and flexible architectures compared to the Sequential API. We use a **pre-trained VGG16 model** (trained on ImageNet), freeze its classification layers, and add custom classification and regression heads on top of its convolutional base.
+## 🗂️ Data Setup & Annotation  
+- Uploaded the images to **Kaggle** 📁  
+- Created a `labels/` directory for storing label files  
+- Used [`labelImg`](https://github.com/HumanSignal/labelImg) 🏷️ for annotating images (bounding boxes around faces)  
+- Output format was **XML**, later converted to **JSON** for compatibility with Albumentations  
+- Dataset Split:
+  - 🔹 70% → Training (268 images)
+  - 🔹 15% → Testing (57 images)
+  - 🔹 15% → Validation (62 images)
 
-This model tackles two tasks:
-- **Regression** – Predicting the coordinates of the bounding box
-- **Classification** – Detecting whether a face is present in the frame
+📽️ [Labeling Tutorial](https://www.youtube.com/watch?v=fjynQ9P2C08)
 
-## VGG16 Model Architecture
+---
+
+## 🔄 Data Augmentation using Albumentations  
+**Albumentations** is a powerful and fast image augmentation library used for:
+- Rotation 🔁
+- Flipping ↔️
+- Blurring 🌫️
+- Adding noise 🎚️  
+These augmentations improve the model’s ability to generalize in real-world scenarios.
+
+---
+
+## 🧠 Model Building with Keras Functional API  
+Using **Keras Functional API**, we:
+- Load **VGG16** pre-trained on **ImageNet**
+- Freeze the classification head ❄️
+- Add two custom heads:
+  - 🟢 Classification – detects presence of a face
+  - 🔴 Regression – predicts bounding box coordinates
+
+---
+
+## 🧱 VGG16 Model Architecture
 
 ![VGG16 Model Architecture](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/VGG16_Model.jpg)
 
-**Building the Custom Convolutional Neural Network Model** –
-- Input layer with shape (120, 120, 3), matching our input image size
-- Passed through the VGG16 pre-trained model with frozen classification layers
-- Two separate heads:
-  - One for classification (F1)
-  - One for regression (F2)
-- VGG16 output is passed to both F1 and F2
-- F1 is connected to a `class1` dense layer (2048 nodes, ReLU activation)
-- F2 is connected to a `regress1` dense layer (2048 nodes, ReLU activation)
-- `class1` connects to `class2` which is the output of the classification head
-- `regress1` connects to `regress2` which is the output of the regression head
-- Outputs of both heads are combined
+---
 
-## Custome_CNN_Model_Architecture
+## 🏗️ Custom CNN Architecture Overview  
+Here's how the custom CNN model is built:
+- 📥 Input: `(120, 120, 3)`
+- 🔄 Pass through VGG16 base
+- 🔁 Two branches:
+  - `F1` ➡️ Classification Head
+    - Dense Layer → `2048` nodes + ReLU
+    - Output: `class2`
+  - `F2` ➡️ Regression Head
+    - Dense Layer → `2048` nodes + ReLU
+    - Output: `regress2`
+- 🔗 Merge both outputs into a unified model
 
-![Custome_CNN_Model_Architecture](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/facetracker_model.png)
+## 🧬 Custom CNN Model Diagram
 
-**Loss Function and Training the Model** –  
-- For the classification task, we use **Binary Crossentropy**
-- For bounding box prediction (regression), we define a **custom localization loss** that penalizes the model based on the distance between predicted and actual bounding boxes
+![Custom CNN Model](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/facetracker_model.png)
 
-We create a custom Keras model class called `FaceTracker`, designed for this multi-task learning setup:
+---
 
-- `FaceTracker` – Combines classification and regression into a single model
-- `train_step()` – Custom training logic (forward pass, compute loss, backpropagation)
-- `test_step()` – Custom test logic (forward pass, loss computation)
-- `compile()` – Adds support for both loss functions
-- `call()` – Defines model behavior on execution
+## ⚙️ Training Strategy & Loss Functions  
+- **Classification Loss**: `Binary Crossentropy`
+- **Regression Loss**: Custom **Localization Loss** 🧮 – penalizes based on deviation from ground-truth bounding boxes
 
-We then create an instance of the `FaceTracker` class and compile it using the **Adam optimizer** with learning rate decay, binary crossentropy for classification, and localization loss for bounding box regression.
+Implemented a custom `FaceTracker` class in Keras:
+- `train_step()` – Forward pass, compute losses, backpropagation 🔁
+- `test_step()` – Forward pass, compute test loss 🧪
+- `compile()` – Combines classification and localization loss 🧩
+- `call()` – Defines model behavior on execution 📞
 
-The model is trained using `.fit()` for **10 epochs**, using validation loss and callbacks.
+Used **Adam optimizer** with learning rate decay and trained the model using `.fit()` for **10 epochs** 🏋️‍♂️
 
-**Output Plots & Testing on Test Data** –
-After training, we plotted:
-- Total Loss vs Epochs
-- Classification Loss vs Epochs
-- Regression Loss vs Epochs
+---
 
-We then visualized model predictions by drawing bounding boxes on test data images.
+## 📊 Training Metrics & Evaluation  
+Generated the following plots:
+- 📉 Total Loss vs Epochs
+- 📉 Classification Loss vs Epochs
+- 📉 Regression Loss vs Epochs
 
-We also captured a **1-minute video** and saved it locally. This video was uploaded to the Kaggle dataset directory. Frames were extracted every **0.3 seconds**, passed through the model, and bounding boxes were drawn around detected faces. We displayed the sampled frames with annotations (i.e., visualized bounding boxes and labels predicted by the model).
+---
+
+## 🧪 Real-Time Testing with Video 🎥  
+- Captured a **1-minute video** using a webcam 🎦  
+- Uploaded the video to Kaggle directory  
+- Extracted frames every **0.3 seconds** ⏱️  
+- Passed each frame through the model  
+- Drew bounding boxes 🟥 around detected faces  
+- Displayed sampled frames with **annotations** (bounding boxes + class labels)
+
+> ✅ *Annotations* here refer to **visual cues** like bounding boxes drawn over images, indicating model predictions.
+
+---
+
+Feel free to ⭐ this repo if you found it useful!
