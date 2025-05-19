@@ -89,3 +89,5 @@ Uploaded this video to the **Kaggle dataset directory**.
 We passed this video frame through the model and detected faces every **0.3 seconds**.  
 Bounding boxes were drawn around detected faces.  
 🖼️ Displayed sampled frames with annotations (i.e., the predicted bounding boxes and labels drawn on the video frames).
+
+Checkout handwritten detailed notes of this project [Here]()
