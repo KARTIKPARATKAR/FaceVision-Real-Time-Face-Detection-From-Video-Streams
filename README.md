@@ -43,6 +43,5 @@ call() --> Defines model behaviour when it is called.
 Now we created the instance of the custome FaceTracker class by passing the FaceTracker model to it. We compiled the model with Adam optimizers with learning rate and decay,binary crossentropy loss for classification and localization loss for regression. We trained the custome FaceTracker model using .fit() method for 10 epochs with "val" as validation loss and call_back
 
 Output Plots & Testing Model on Test Data - We drawn 3 plots after training the deep learning modeland those are - total loss vs epochs , classification loss vs epochs and regression loss vs epochs. Then visualized the bounding box on test data.We captured a video of nearly 1min and saved in local machine.Then uploaded this video in kaggle dataset directory.We passed this video frame through the model and detected faces in a video every 0.3 seconds , drawn a bounding box around them if detected and display sampled frames with annotations(visualized detection results — i.e., the predicted bounding boxes and labels drawn on the video frames.
-
 )
 
