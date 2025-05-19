@@ -28,6 +28,8 @@ Building Custome Convolutional Neural Network Model -
    - regress1 output is passed through regress2 layer which is also the output for regression model.
    - At the end , we will combine the output of both classification and regression models.
 
+     ![Custome_CNN_Model_Architecture](https://github.com/KARTIKPARATKAR/FaceVision-Real-Time-Face-Detection-From-Video-Streams/blob/main/facetracker_model.png)
+
 
 
 
